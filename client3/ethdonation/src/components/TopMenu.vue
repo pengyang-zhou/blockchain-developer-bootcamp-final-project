@@ -27,7 +27,7 @@
     
                         <li class="nav-link"></li>
                         <li class="nav-link">
-                            <lable>Account: </lable>
+                            <label>Account: </label>
                             <strong><a @click="handleClick">{{account}}</a></strong>
                             <!-- <strong :class="connectedClass">
                                 {{ bcConnected ? 'Connected' : 'Not Connected' }}

@@ -72,67 +72,11 @@
                 </div>
                 <div class="col-md-1">
                 </div>
-
         </div>
 
-         <div class="row">
-                <div class="col-md-1">
-                </div>
-                <div class="col-md-10">
-                    <h3 class="title text-left">Project Donations</h3>
-                    <table class="table">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-sm-3">Donator</th>
-                                <th class="col-sm-3">Total Donated Amount</th>
-                                <th class="col-sm-6">Amount Available for Expenses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="row">
-                                <td class="col-sm-3">0x1234</td>
-                                <td class="col-sm-3">10</td>
-                                <td class="col-sm-6">10</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-1">
-                </div>
-        </div>
         <donations></donations>
+        <expenses></expenses>
 
-        <div class="row">
-        <!-- project expenses  -->
-            <div class="col-md-1">
-            </div>
-                <div class="col-md-10">
-                    <h3 class="title text-left">Project Expenses</h3>
-                    <table class="table">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-sm">Description</th>
-                                <th class="col-sm">Allocation Asked</th>
-                                <th class="col-sm">Approved Amount</th>
-                                <th class="col-sm">Approve</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="row">
-                                <td class="col-sm">expense xx</td>
-                                <td class="col-sm">10</td>
-                                <td class="col-sm">10</td>
-                                <td class="col-sm">
-                                    <!-- This will only show if the account is a donator -->
-                                    <button class="btn btn-primary float-center">Approve</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-1">
-                </div>
-        </div>
     </div>
 </template>
 
@@ -140,9 +84,11 @@
     import { computed } from 'vue'
     import { useRoute } from 'vue-router'
     import Donations from '../components/Donations'
+    import Expenses from '../components/Expenses'
+
 
     export default {
-
+        components: { Donations, Expenses },
         setup () {
             const route = useRoute();
 
@@ -151,8 +97,6 @@
                 index
             }
         }
-
-        
     }
 </script>
 

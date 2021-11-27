@@ -27,17 +27,11 @@
                     <thead>
                         <tr class="row">
                             <th class="col-sm" v-for="header in headers">{{header.title}}</th>
-                            <!-- <th class="col-sm">Project Title</th>
-                            <th class="col-sm">Project Description</th>
-                            <th class="col-sm">Project End Time</th>
-                            <th class="col-sm">Current Donations</th>
-                            <th class="col-sm">Expenses Count</th>
-                            <th class="col-sm">Detail</th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="state.loading === true">
-                            <td>No data</td>
+                        <tr v-if="state.loading === true || state.date.length === 0">
+                            <td>No project data</td>
                         </tr>
                         <tr v-else v-for="item in state.data">
                             <td class="col-sm">{{item.title}}</td>
@@ -75,8 +69,7 @@
         {
             title: 'Project End Time',
             dataIndex: 'endTime',
-            key: 'endTime',
-            slots: { customRender: 'time' }
+            key: 'endTime'
         },
         {
             title: 'Current Donations(ETH)',
@@ -91,8 +84,7 @@
         {
             title: "Detail",
             dataIndex: 'detail',
-            key: 'detail',
-            slots: { customRender: 'detail' }
+            key: 'detail'
         }
     ]
 

@@ -7,16 +7,17 @@
             <table class="table">
                 <thead>
                     <tr class="row">
-                        <th class="col-sm-3">Donator</th>
-                        <th class="col-sm-3">Total Donated Amount</th>
-                        <th class="col-sm-6">Amount Available for Expenses</th>
+                        <th class="col-sm" v-for="header in headers">{{header.title}}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="row">
-                        <td class="col-sm-3">0x1234</td>
-                        <td class="col-sm-3">10</td>
-                        <td class="col-sm-6">10</td>
+                    <tr class="row" v-if="state.loading === true || state.data.length === 0">
+                        <td>No donation data</td>
+                    </tr>
+                    <tr class="row" v-for="item in state.data">
+                        <td class="col-sm">{{item.donator}}</td>
+                        <td class="col-sm">{{item.total}}</td>
+                        <td class="col-sm">{{item.available}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -26,8 +27,57 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'Donations'
+
+<script lang="ts">
+    import { useRoute } from 'vue-router'
+    import { ref, reactive } from "vue";
+    import { Donation, getProjectDonations, addListener } from "../api/contract";
+
+    const headers = [
+        {
+            title: 'Donator',
+            dataIndex: 'donator',
+            key: 'donator',
+        },
+        {
+            title: 'Total',
+            dataIndex: 'total',
+            key: 'total'
+        },
+        {
+            title: 'Available',
+            dataIndex: 'available',
+            key: 'available'
+        }
+    ]
+
+export default {
+    name: "Donations",
+
+    setup() {
+
+        const route = useRoute();
+        const projectId = parseInt(route.params.id as string);
+
+        const state = reactive<{loading: boolean, data: Donation[]}>({
+            loading: true,
+            data: []
+        })
+
+        async function fetchData() {
+            state.loading = true;
+            try {
+                state.data = await getProjectDonations(projectId);
+                state.loading = false;
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        addListener(fetchData)
+        fetchData();
+
+        return {headers, projectId, state}
     }
+}
 </script>
