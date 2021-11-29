@@ -146,7 +146,6 @@ async function approveExpense(projectId:number, expenseId:number) : Promise<numb
     });
 }
 
-
 export {
     detectWallet,
     getAccount,

@@ -84,7 +84,8 @@
                 const seconds = Math.ceil(new Date(endTime.value) / 1000);
                 try {
                     await createProject(projectTitle.value, projectDescription.value, seconds, founderAddress.value);
-                    router.push({path: '/projects', query: {mine: true}});
+                    // router.push({path: '/projects', query: {mine: true}});
+                    router.push({name: "MyProjects"});
                 } catch (e) {
                     console.log(e)
                 }
