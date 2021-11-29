@@ -2,16 +2,29 @@
   <div id="app">
     <top-menu></top-menu>
     <div class="p-4">
-      <router-view></router-view>
+      <router-view v-if="isRouterAlive"></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import TopMenu from './components/TopMenu';
+import {ref, nextTick, provide} from 'vue';
+
 export default {
-  components: { TopMenu },
-  name: 'App'
+  name: 'App',
+  setup() {
+    const isRouterAlive = ref(true);
+    const reload = () => {
+      isRouterAlive.value = false;
+      nextTick(() => {
+        isRouterAlive.value = true;
+      })
+    };
+    provide('reload', reload);
+    return {
+      isRouterAlive
+    };
+  },
 }
 </script>
 

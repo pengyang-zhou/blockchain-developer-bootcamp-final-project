@@ -11,7 +11,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="row" v-if="state.loading === true || state.data.length === 0">
+                    <tr class="text-center" v-if="state.loading === true || state.data.length === 0">
                         <td>No donation data</td>
                     </tr>
                     <tr class="row" v-for="item in state.data">
@@ -30,7 +30,7 @@
 
 <script lang="ts">
     import { useRoute } from 'vue-router'
-    import { ref, reactive } from "vue";
+    import { ref, reactive, defineComponent } from "vue";
     import { Donation, getProjectDonations, addListener } from "../api/contract";
 
     const headers = [
@@ -45,39 +45,39 @@
             key: 'total'
         },
         {
-            title: 'Available',
+            title: 'Available (to approve expenses)',
             dataIndex: 'available',
             key: 'available'
         }
     ]
 
-export default {
-    name: "Donations",
+    export default defineComponent({
+        name: "Donations",
 
-    setup() {
+        setup() {
 
-        const route = useRoute();
-        const projectId = parseInt(route.params.id as string);
+            const route = useRoute();
+            const projectId = parseInt(route.params.id as string);
 
-        const state = reactive<{loading: boolean, data: Donation[]}>({
-            loading: true,
-            data: []
-        })
+            const state = reactive<{loading: boolean, data: Donation[]}>({
+                loading: true,
+                data: [],
+            })
 
-        async function fetchData() {
-            state.loading = true;
-            try {
-                state.data = await getProjectDonations(projectId);
-                state.loading = false;
-            } catch (e) {
-                console.log(e);
+            async function fetchData() {
+                state.loading = true;
+                try {
+                    state.data = await getProjectDonations(projectId);
+                    state.loading = false;
+                } catch (e) {
+                    console.log(e);
+                }
             }
+
+            addListener(fetchData)
+            fetchData();
+
+            return {headers, projectId, state}
         }
-
-        addListener(fetchData)
-        fetchData();
-
-        return {headers, projectId, state}
-    }
-}
+    });
 </script>

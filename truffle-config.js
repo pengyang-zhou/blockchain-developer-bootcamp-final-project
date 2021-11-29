@@ -113,4 +113,6 @@ module.exports = {
     //   }
     // }
   // }
+
+  contracts_build_directory: "./client/ethdonation/src/api",
 };

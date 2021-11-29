@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header-image">
-                    <h1 class="title">Donate Crypto to Peopel In Need</h1>
+                    <h1 class="title">Donate Crypto to People In Need</h1>
                 </div>
             </div>
             <div class="col-md-12">
@@ -13,25 +13,13 @@
                             <a>All Projects</a>
                         </router-link>
     
-                        <router-link tag="li" class="nav-link" to="/my" exact>
+                        <router-link tag="li" class="nav-link" to="/projects?mine=true">                        
                             <a>My Projects</a>
                         </router-link>
-    
-                        <router-link tag="li" class="nav-link" to="/new" exact>
-                            <a>New Project</a>
-                        </router-link>
-    
-                        <router-link tag="li" class="nav-link" to="/project/1" exact>
-                            <a>Project Detail</a>
-                        </router-link>
-    
-                        <li class="nav-link"></li>
+
                         <li class="nav-link">
                             <label>Account: </label>
                             <strong><a @click="handleClick">{{account}}</a></strong>
-                            <!-- <strong :class="connectedClass">
-                                {{ bcConnected ? 'Connected' : 'Not Connected' }}
-                            </strong> -->
                         </li>
                     </ul>
                 </nav>
@@ -40,23 +28,42 @@
     </div>
 </template>
 
-<script>
-    import {ref} from 'vue';
-    import {authenticate, getAccount, addListener} from "../api/contract"
+<script lang="ts">
+    import {ref, inject} from 'vue';
+    import {useRouter} from 'vue-router';
+    import {detectWallet, connect, getAccount, addListener} from "../api/contract";
+
     export default {
         setup() {
+            if (!detectWallet()) {
+                alert("no wallet installed!");
+            }
             // connect to account
             const account = ref('connect');
             async function handleClick() {
-                await authenticate();
+                await connect();
                 account.value = await getAccount();
             }
 
             handleClick();
-            addListener(handleClick)
+            addListener(handleClick);
+
+            const onRefresh = inject<Function>('reload')
+
+            // const router = useRouter();
+            // const navToHome = () => {
+            //     router.push({path: '/projects'});
+
+            //     onRefresh && onRefresh()
+            // };
+            // const navToMyProjects = () => {
+            //     router.push({path: '/projects', query: {mine: 'true'}});
+            //     console.log("onrefresh", onRefresh)
+            //     onRefresh && onRefresh()
+            // };
 
             return {handleClick, account}
-        }
+        },
     }
 </script>
 
