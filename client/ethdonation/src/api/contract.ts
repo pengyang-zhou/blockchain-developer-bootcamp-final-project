@@ -4,7 +4,7 @@ import EthDonation from './EthDonation.json';
 
 //@ts-ignore
 const web3 = new Web3(window.ethereum);
-const contract = new web3.eth.Contract(EthDonation.abi, '0x148497B25F9628990533798CeF065B00F2E4Fc42');
+const contract = new web3.eth.Contract(EthDonation.abi, '0xC374e9F0df4069bE84Ce2ad97237379E9838b2f4');
 
 function detectWallet() {
     //@ts-ignore

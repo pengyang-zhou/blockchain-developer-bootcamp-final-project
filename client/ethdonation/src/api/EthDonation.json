@@ -32709,7 +32709,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-29T09:32:13.654Z",
+  "updatedAt": "2021-11-29T09:58:44.962Z",
   "devdoc": {
     "author": "Pengyang Zhou",
     "details": "EthDonation is contract manages charity projects. A project founder proposes a project, and adds expenses plans. A donator or investor donates to a project and approve expense according to their available donations.",
