@@ -23,6 +23,7 @@ https://pengyang-zhou.github.io/ethdonation/
 ### Prerequisites
 - Node.js >= v14.18.1
 - Truffle
+- Ganache
 - npm >= 8.1.0
 - vue-cli (if running front-end locally)
   - `npm install -g @vue/cli`
@@ -48,6 +49,7 @@ https://pengyang-zhou.github.io/ethdonation/
     },
    ```
    **Local Ganache testnet**
+
     <img src="./images/ganache.png" alt="ganache" width="600"/>
 
 2. `truffle console --network development` and `compile`.
@@ -89,11 +91,11 @@ To build and run front end locally with a local deployed contract.
    ```
    truffle console --network development
    ```
-   and in truffle console `truffle(development)>`
+   and in truffle console,
    ```
    migate
    ```
-2. Get the contract deployed address from Ganache.
+2. Get the contract deployed `EthDonation` contract address from Ganache or truffle console.
    <img src="./images/contract_address.png" alt="contract_address" width="600"/>
 
 3. Update local contract address in front end code.
@@ -107,9 +109,9 @@ To build and run front end locally with a local deployed contract.
    npm install
    npm run serve
    ```
-5. Load from [http://localhost:8080/](http://localhost:8080/) and connect MetaMask to local testnet (http://127.0.0.1:8545)
+5. Load from http://localhost:8080/ and connect MetaMask to local testnet (http://127.0.0.1:8545)
 
-#### Screenshots for workflows
+## Screenshots for workflows
 
 Checkout [here](./workflows.md) for a workthrough of the front-end interacting with smart contracts. 
 
