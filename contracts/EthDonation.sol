@@ -3,6 +3,7 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/utils/math/Math.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./DonationEvents.sol";
 
 /// @title Contract for charity funding with ether donations
 /// @author Pengyang Zhou
@@ -10,7 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @dev EthDonation is contract manages charity projects. A project founder proposes a project,
 /// and adds expenses plans. A donator or investor donates to a project and approve expense according
 /// to their available donations.
-contract EthDonation is Ownable{
+contract EthDonation is DonationEvents, Ownable {
   
   /// @dev Tracks total project count
   uint public projectCount;
@@ -23,42 +24,6 @@ contract EthDonation is Ownable{
     Pending,
     Approved
   }
-
-  /// @notice Emitted when a new donation is made to a project
-  /// @param donatorAddress Donator Address
-  /// @param amount Donation amount
-  /// @param projectId Project ID
-  event LogDonationMade(address donatorAddress, uint256 amount, uint projectId);
-
-  /// @notice Emitted when an expense is approved from a donator
-  /// @param projectId Project ID
-  /// @param expenseId Expense ID
-  /// @param approver Approver Address
-  event LogExpenseApproved(uint projectId, uint expenseId, address approver);
-
-  /// @notice Emitted when an expense reached to an approved state and allocation will be transferred
-  /// @param projectId Project ID
-  /// @param expenseId Expense ID
-  /// @param allocation Allocation amount
-  event LogExpenseAllocated(uint projectId, uint expenseId, uint256 allocation);
-
-  /// @notice Emitted when an expense reached to an approved state and but allocation transfer is failed
-  /// @param projectId Project ID
-  /// @param expenseId Expense ID
-  /// @param allocation Allocation amount
-  event LogExpenseAllocationFailure(uint projectId, uint expenseId, uint256 allocation);
-
-  /// @notice Emitted when a refund is made to a donator
-  /// @param projectId Project ID
-  /// @param donator Donator Address
-  /// @param amount Refund amount
-  event LogRefund(uint projectId, address donator, uint256 amount);
-
-  /// @notice Emitted when a refund to a donator is failed
-  /// @param projectId Project ID
-  /// @param donator Donator Address
-  /// @param amount Refund amount
-  event LogRefundFailure(uint projectId, address donator, uint256 amount);
 
   constructor() {
   }
@@ -257,5 +222,10 @@ contract EthDonation is Ownable{
         project.amountAllocated -= expense.allocation;
       }
     }
+  }
+
+  /// @dev Migrates the contract balances to an address
+  function migrateTo(address to) public onlyOwner {
+    /// TODO: In an emergency the owner can migrate  allfunds to a different address.
   }
 }
