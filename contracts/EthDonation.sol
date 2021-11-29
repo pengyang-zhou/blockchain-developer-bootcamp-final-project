@@ -2,12 +2,13 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/utils/math/Math.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract EthDonation {
+contract EthDonation is Ownable{
 
   // owner is the owner of the contract
-  address payable public owner;
-  uint projectCount;
+  // address payable public owner;
+  uint public projectCount;
   // TODO: evaluate whether projectBalances is useful
   mapping(uint => uint256) private projectBalances; // projectId to project balance
   mapping(uint => Project) public projects; // projectId to project
@@ -24,8 +25,7 @@ contract EthDonation {
   event LogRefund(uint projectId, address donator, uint256 amount);
   event LogRefundFailure(uint projectId, address donator, uint256 amount);
 
-  constructor() payable {
-    owner = payable(msg.sender);
+  constructor() {
   }
 
   struct Donation {
@@ -47,8 +47,9 @@ contract EthDonation {
     uint256 amountAllocated;
     // mapping of each donator to the amount, if the amount is partially consumed by an expense,
     // the amount is the left amount of that donator
-    mapping(address => Donation) donations;
     uint expenseCount;
+    address[] donators;
+    mapping(address => Donation) donations;
     mapping(uint => Expense) expenses;
   }
 
@@ -83,11 +84,15 @@ contract EthDonation {
     Project storage proj = projects[projectId];
     proj.amountFunded += msg.value;
     Donation storage donation = proj.donations[msg.sender];
+    if (donation.total == 0) {
+      proj.donators.push(msg.sender);
+    }
     donation.total += msg.value;
     donation.available += msg.value;
     emit LogDonationMade(msg.sender, msg.value, projectId);
   }
 
+  // require role: project donator
   // refund donations to the original donator if the project ends and there are donations left
   function refund(uint projectId) public {
     require(projectId >= 1 && projectId <= projectCount);
@@ -111,6 +116,7 @@ contract EthDonation {
     }
   }
 
+  // require role: project owner
   // createExpense creates an expense to a project
   function createExpense(uint projectId, uint256 allocation, string memory description) public returns(uint) {
     require(projects[projectId].founder == msg.sender);
@@ -125,6 +131,11 @@ contract EthDonation {
     exps.state = ExpenseState.Pending;
     proj.expenseCount += 1;
     return expenseId;
+  }
+
+  function getExpenseCount(uint projectId) public view returns (uint) {
+    require(projectId >= 1 && projectId <= projectCount);
+    return projects[projectId].expenseCount;
   }
 
   function getExpense(uint projectId, uint expenseId) public view returns (string memory, uint256, uint256, uint) {
@@ -144,6 +155,27 @@ contract EthDonation {
     return (dona.total, dona.available);
   }
 
+
+  function getDonations(uint projectId) public view returns (address[] memory, uint256[] memory, uint256[] memory){
+    require(projectId >= 1 && projectId <= projectCount);
+
+    Project storage proj = projects[projectId];
+    uint length = proj.donators.length;
+    address[] memory donators = new address[](length);
+    uint256[] memory allocations = new uint256[](length);
+    uint256[] memory availables = new uint256[](length);
+
+    for (uint i = 0; i < length; i++) {
+      address donator = proj.donators[i];
+      Donation memory dona = proj.donations[donator];
+      donators[i] = donator;
+      allocations[i] = dona.total;
+      availables[i] = dona.available;
+    }
+    return (donators, allocations, availables);
+  }
+
+  // require role: project donator
   // approveExpense approves an expense to a project
   // when the total approved amount is greater than or equal to the allocation for the proposed expense
   // the approved amount will be transferred to the project founder's address
