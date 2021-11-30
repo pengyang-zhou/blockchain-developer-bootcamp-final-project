@@ -4,6 +4,9 @@ The Decentralized Charity Funding project brings a transparency, trackable chari
 ## Demo Site Preview
 https://pengyang-zhou.github.io/ethdonation/
 
+## Demo Workthrough
+https://youtu.be/cJxLrEXyXg8 (better view with speed set to 1.5x)
+
 ## Public ETH Address for Certification
 `0x7D29883c93fE4275497dF5CCBe448829f028C13E`
 
