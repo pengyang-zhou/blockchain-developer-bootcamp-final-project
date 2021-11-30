@@ -23,6 +23,10 @@ https://youtu.be/cJxLrEXyXg8 (better view with speed set to 1.5x)
 
 ## Get Started
 
+```
+git clone https://github.com/pengyang-zhou/blockchain-developer-bootcamp-final-project.git
+```
+
 ### Prerequisites
 - Node.js >= v14.18.1
 - Truffle
@@ -43,7 +47,7 @@ https://youtu.be/cJxLrEXyXg8 (better view with speed set to 1.5x)
 ### Contracts
 
 #### Compile
-1. Have ganache run local blockchain (In this project, development network is set to HTTP://127.0.0.1:8545). In {root}/truffle-config.js 
+1. Have Ganache run local blockchain (In this project, development network is set to HTTP://127.0.0.1:8545). In {root}/truffle-config.js 
    ```
     development: {
         host: "127.0.0.1",     // Localhost (default: none)
@@ -53,7 +57,7 @@ https://youtu.be/cJxLrEXyXg8 (better view with speed set to 1.5x)
    ```
    **Local Ganache testnet**
 
-    <img src="./images/ganache.png" alt="ganache" width="600"/>
+    <img src="./images/ganache.png" alt="ganache" width="800"/>
 
 2. `truffle console --network development` and `compile`.
    
@@ -90,7 +94,14 @@ https://youtu.be/cJxLrEXyXg8 (better view with speed set to 1.5x)
 ### Front End
 
 To build and run front end locally with a local deployed contract.
-1. Deploy contract to a local testnet
+
+0. Prerequisites: Launch Ganache local testnet
+   
+   **Launch Ganache** -> **New Workspace(Ethereum)** -> Set workspace name -> **Add Project** -> locate to root of this project -> choose `truffle-config.js` -> **Save workspace**
+
+   <img src="./images/launch_ganache.png" alt="launch_ganache" width="800"/>
+
+1. Deploy contract to a local testnet.
    ```
    truffle console --network development
    ```
@@ -99,7 +110,7 @@ To build and run front end locally with a local deployed contract.
    migate
    ```
 2. Get the contract deployed `EthDonation` contract address from Ganache or truffle console.
-   <img src="./images/contract_address.png" alt="contract_address" width="600"/>
+   <img src="./images/contract_address.png" alt="contract_address" width="800"/>
 
 3. Update local contract address in front end code.
    In `{root}/client/ethdonation/src/api/contract.ts`, change the contract address to local deployed address.
