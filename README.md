@@ -127,6 +127,6 @@ To build and run front end locally with a local deployed contract.
 Checkout [here](./workflows.md) for a workthrough of the front-end interacting with smart contracts. 
 
 ## Upgrade consideration
-1. Third part escrow could be applied.
+1. Third party escrow could be applied.
 2. Upgradable Contract design pattern could be applied to allow contract upgrade without deploying to a new address.
    
