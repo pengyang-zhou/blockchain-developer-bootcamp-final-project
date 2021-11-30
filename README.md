@@ -55,9 +55,6 @@ git clone https://github.com/pengyang-zhou/blockchain-developer-bootcamp-final-p
         network_id: "*",       // Any network (default: none)
     },
    ```
-   **Local Ganache testnet**
-
-    <img src="./images/ganache.png" alt="ganache" width="800"/>
 
 2. `truffle console --network development` and `compile`.
    
